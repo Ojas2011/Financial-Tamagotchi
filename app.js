@@ -8,7 +8,7 @@ const itemCostInput = document.getElementById('item-cost');
 const buyBtn = document.getElementById('buy-btn');
 const resetBtn = document.getElementById('reset-btn');
 
-const API_URL = 'http://127.0.0.1:9000';
+const API_URL = 'http://127.0.0.1:8888';
 const startBudget = 500;
 
 function getPetState(currentBudget) {
