@@ -9,6 +9,7 @@ const itemNameInput = document.getElementById('item-name');
 const itemCostInput = document.getElementById('item-cost');
 const buyBtn = document.getElementById('buy-btn');
 const resetBtn = document.getElementById('reset-btn');
+const expenseList = document.getElementById('expense-list');
 
 const API_URL = 'http://127.0.0.1:8888';
 
@@ -35,23 +36,22 @@ function updateUI(budget, expenses) {
     
     if (state === 'happy') {
         healthBar.style.backgroundColor = '#4CAF50';
-        petImage.innerText = '😎'; 
+        petImage.src = 'assets/Happy.png'; 
     } else if (state === 'okay') {
         healthBar.style.backgroundColor = '#FFEB3B';
-        petImage.innerText = '🙂'; 
+        petImage.src = 'assets/Okay.png'; 
     } else if (state === 'sick') {
         healthBar.style.backgroundColor = '#FF9800';
-        petImage.innerText = '🤢'; 
+        petImage.src = 'assets/Sad.png'; 
     } else if (state === 'dead') {
         healthBar.style.backgroundColor = '#F44336';
-        petImage.innerText = '💀'; 
+        petImage.src = 'assets/Dead.png'; 
         buyBtn.disabled = true;
         buyBtn.style.opacity = '0.5';
     }
 
     messageBox.innerText = getRandomMessage(state);
 
-    // Render the expense history straight from the backend data
     expenseList.innerHTML = '';
     expenses.forEach(exp => {
         const li = document.createElement('li');
@@ -60,7 +60,6 @@ function updateUI(budget, expenses) {
     });
 }
 
-// Fetch the current budget and history when the page loads
 async function fetchState() {
     try {
         const response = await fetch(`${API_URL}/state`);
@@ -80,7 +79,6 @@ buyBtn.addEventListener('click', async () => {
         return;
     }
 
-    // Send the purchase to the Python backend
     const response = await fetch(`${API_URL}/expense`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -94,7 +92,6 @@ buyBtn.addEventListener('click', async () => {
 });
 
 resetBtn.addEventListener('click', async () => {
-    // Tell the backend to wipe the history and reset to 500
     const response = await fetch(`${API_URL}/reset`, { method: 'POST' });
     const data = await response.json();
     

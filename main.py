@@ -38,3 +38,8 @@ def reset_state():
     app_state["budget"] = START_BUDGET
     app_state["expenses"] = []
     return app_state
+
+@app.get("/")
+@app.get("/state")
+def get_state():
+    return app_state
