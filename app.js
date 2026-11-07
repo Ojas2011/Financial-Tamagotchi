@@ -1,7 +1,7 @@
 const startBudget = 500;
 let budget = 500;
 
-const petImage = document.getElementById('pet-image');
+const petImage = document.getElementById('pet-img');
 const healthBar = document.getElementById('health-bar');
 const budgetText = document.getElementById('budget-text');
 const messageBox = document.getElementById('message-box');
@@ -10,7 +10,6 @@ const itemNameInput = document.getElementById('item-name');
 const itemCostInput = document.getElementById('item-cost');
 const buyBtn = document.getElementById('buy-btn');
 const resetBtn = document.getElementById('reset-btn');
-const expenseList = document.getElementById('expense-list');
 
 const API_URL = 'http://127.0.0.1:8888';
 
@@ -84,27 +83,6 @@ buyBtn.addEventListener('click', async () => {
         return;
     }
 
-<<<<<<< HEAD
-    const response = await fetch(`${API_URL}/expense`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, cost: cost })
-    });
-    const data = await response.json();
-    
-    updateUI(data.budget, data.expenses);
-    itemNameInput.value = '';
-    itemCostInput.value = '';
-});
-
-resetBtn.addEventListener('click', async () => {
-    const response = await fetch(`${API_URL}/reset`, { method: 'POST' });
-    const data = await response.json();
-    
-    buyBtn.disabled = false;
-    buyBtn.style.opacity = '1';
-    updateUI(data.budget, data.expenses);
-=======
     // Send the purchase to the Python backend
     try {
         const response = await fetch(`${API_URL}/expense`, {
@@ -141,7 +119,6 @@ resetBtn.addEventListener('click', async () => {
         console.error('Could not reset the budget.', error);
         messageBox.innerText = 'Could not reset the budget. Check the server connection and try again.';
     }
->>>>>>> b47b7f4 (API changes)
 });
 
 fetchState();
