@@ -20,3 +20,15 @@ button:hover {
     padding: 10px;
     border-radius: 10px;
 }
+
+#pet-image {
+    font-size: 80px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.app-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
