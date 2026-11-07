@@ -1,69 +1,85 @@
+:root {
+  --bg: #14121F;
+  --panel: #2b2742;
+  --warn: #F4B942;
+  --bad: #E4572E;
+  --ink: #F2E8CF;
+  --good: #7BD389;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
-    background-color: #14121F;
-    color: white;
-    font-family: Arial, sans-serif;
+  --bar: var(--good);
+  margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink);
+  font-family: 'VT323', monospace; font-size: 1.35rem; line-height: 1.3;
+  display: flex; justify-content: center; padding: 16px;
 }
-
-button {
-    background-color: #7BD389;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-}
-
-button:hover {
-    background-color: #68bf77;
-}
+body[data-state="okay"] { --bar: var(--warn); }
+body[data-state="sick"], body[data-state="dead"] { --bar: var(--bad); }
+.app { width: 100%; max-width: 520px; text-align: center; }
+h1 { font-family: 'Press Start 2P', monospace; font-size: 1.15rem; line-height: 1.5; margin: 8px 0 4px; }
+h2 { font-family: 'Press Start 2P', monospace; font-size: .8rem; margin: 20px 0 8px; }
+.tagline { margin: 0 0 16px; opacity: .85; }
+.sr-only { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 #message-box {
-    border: 2px solid #F4B942;
-    padding: 10px;
-    border-radius: 10px;
+  position: relative; background: var(--ink); color: var(--bg); border-radius: 12px;
+  padding: 12px 14px; min-height: 3.6em; margin: 0 0 20px;
+  display: flex; align-items: center; justify-content: center;
+}
+#message-box::after {
+  content: ""; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+  border: 10px solid transparent; border-top-color: var(--ink); border-bottom: 0;
 }
 
-#pet-image {
-    font-size: 80px;
-    text-align: center;
-    margin: 20px 0;
+.pet-wrap { min-height: 150px; margin-bottom: 8px; }
+#pet-image, #pet-emoji { display: block; margin: 0 auto; width: min(55vw, 260px); height: auto; image-rendering: pixelated; }
+#pet-emoji { font-size: 7rem; line-height: 1.15; }
+body[data-state="happy"] #pet-image, body[data-state="happy"] #pet-emoji { animation: bounce 1.2s ease-in-out infinite; }
+body[data-state="sick"] #pet-image, body[data-state="sick"] #pet-emoji { animation: shake .5s linear infinite; }
+body[data-state="dead"] #pet-image, body[data-state="dead"] #pet-emoji { opacity: .7; filter: grayscale(1) contrast(1.15); }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+@media (prefers-reduced-motion: reduce) {
+  #pet-image, #pet-emoji { animation: none !important; }
+  #health-bar { transition: none !important; }
 }
 
-.app-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-}
+.state-label { margin: 6px 0; color: var(--bar); font-family: 'Press Start 2P', monospace; font-size: .75rem; }
+.bar { height: 24px; background: var(--panel); border: 2px solid var(--ink); border-radius: 5px; overflow: hidden; }
+#health-bar { height: 100%; width: 100%; background: var(--bar); transition: width .4s ease, background .3s ease; }
+#budget-text { margin: 8px 0 2px; font-size: 1.6rem; }
+.pace { margin: 0 0 8px; font-size: 1.15rem; opacity: .9; }
 
-.health-bar-bg {
-    width: 100%;
-    height: 20px;
-    background-color: #444;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 10px 0 20px 0;
-}
+.report { background: var(--panel); border: 2px solid var(--bar); border-radius: 10px; padding: 12px 14px; margin: 14px 0; text-align: left; }
+.report h2 { margin-top: 10px; text-align: center; }
+.tape { height: 14px; margin: -12px -14px 0; border-radius: 8px 8px 0 0; background: repeating-linear-gradient(45deg, #F4B942 0 14px, #14121F 14px 28px); }
+.report dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 10px 0; }
+.report dt { opacity: .8; }
+.report dd { margin: 0; }
+.report button { display: block; margin: 8px auto 0; }
 
-#health-bar {
-    width: 93%; /* change this later with JavaScript */
-    height: 100%;
-    background-color: #7BD389;
-    border-radius: 10px;
-}
+form { display: flex; flex-direction: column; gap: 10px; margin: 14px 0 6px; }
+form.inline { flex-direction: row; align-items: center; justify-content: center; flex-wrap: wrap; margin: 14px 0; }
+input, textarea { font: inherit; font-size: 1.2rem; padding: 10px; border-radius: 8px; border: 2px solid var(--ink); background: var(--panel); color: var(--ink); min-height: 48px; width: 100%; }
+form.inline input { width: 120px; }
+button { font: inherit; font-size: 1.25rem; min-height: 48px; padding: 8px 16px; border-radius: 8px; border: 2px solid var(--ink); background: var(--bad); color: var(--ink); cursor: pointer; }
+button.secondary { background: transparent; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+:focus-visible { outline: 3px solid var(--warn); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.error { color: var(--warn); min-height: 1.3em; margin: 4px 0; }
 
-#pet-image {
-    transition: all 0.4s ease;
-}
-
-button:hover {
-    transform: scale(1.05);
-}
-
-#pet-image {
-    text-align: center;
-    margin: 20px 0;
-}
-
-#pet-img {
-    width: 250px;
-    max-width: 100%;
-    height: auto;
-}
+#chart { width: 100%; height: 110px; background: var(--panel); border-radius: 8px; }
+#chart .grid { stroke: var(--ink); stroke-opacity: .35; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; }
+#chart-line { stroke: var(--bar); stroke-width: 3; vector-effect: non-scaling-stroke; }
+.chart-note { margin: 4px 0; font-size: 1.05rem; opacity: .75; }
+#history-list { list-style: none; padding: 0; margin: 0; text-align: left; }
+#history-list li { padding: 4px 0; border-bottom: 1px dashed rgba(242, 232, 207, .25); }
+.tag { display: inline-block; min-width: 3.2em; text-transform: uppercase; font-size: 1rem; }
+.tag.need { color: var(--good); }
+.tag.want { color: var(--warn); }
+details { margin: 18px 0; text-align: left; }
+summary { cursor: pointer; }
+textarea { margin: 6px 0 10px; font-family: monospace; font-size: 1rem; }
+.footnote { margin-top: 20px; font-size: 1.05rem; opacity: .7; }

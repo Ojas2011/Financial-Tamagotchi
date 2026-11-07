@@ -1,52 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Tamagotchi</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dead Broke</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="app-container">
-        <header>
-            <h1>Financial Tamagotchi</h1>
-            <p class="tagline">Keep your budget alive.</p>
-        </header>
-
-        <!-- Message Bubble -->
-        <div id="message-box" class="message-bubble">I'm thriving. Keep it up.</div>
-
-        <!-- Pet Display -->
-        <div id="pet-image">
-    <img src="assets/Happy.png" id="pet-img" alt="Pet">
-        </div>
-
-        <!-- Health & Budget Stats -->
-        <div class="stats-container">
-            <h2 id="budget-text">$500 / $500</h2>
-            <div class="health-bar-bg">
-                <div id="health-bar"></div>
-            </div>
-        </div>
-
-        <!-- Expense Form -->
-        <div class="form-container">
-            <input type="text" id="item-name" placeholder="What did you buy?">
-            <input type="number" id="item-cost" placeholder="Cost ($)">
-            <button id="buy-btn">Log Expense</button>
-        </div>
-
-        <!-- Expense History -->
-        <div class="history-container">
-            <h3>Recent Purchases</h3>
-            <ul id="expense-list"></ul>
-        </div>
-
-        <!-- Reset Game -->
-        <button id="reset-btn">Restart Demo</button>
-    </div>
-
-    <script src="messages.js"></script>
-    <script src="app.js"></script>
+<body data-state="happy">
+<main class="app">
+<header>
+<h1>Dead Broke</h1>
+<p class="tagline">Every overspent budget is a crime scene.</p>
+</header>
+<div id="message-box" role="status" aria-live="polite">Log your first expense. I'm already judging you.</div>
+<div class="pet-wrap">
+<img id="pet-image" alt="Your pet is thriving" src="assets/happy.png">
+<div id="pet-emoji" aria-hidden="true" hidden></div>
+</div>
+<section class="stats" aria-label="Budget">
+<p id="state-label" class="state-label">Thriving</p>
+<div id="bar-wrap" class="bar" role="progressbar" aria-label="Budget, remaining" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+<div id="health-bar"></div>
+</div>
+<p id="budget-text">$500.00 / $500.00</p>
+<p id="pace-text" class="pace"></p>
+</section>
+<section id="report" class="report" hidden aria-live="polite">
+<div class="tape" aria-hidden="true"></div>
+<h2 id="report-title">Case File</h2>
+<p id="report-epitaph"></p>
+<dl id="report-list"></dl>
+<button id="report-close" type="button" class="secondary">Close</button>
+</section>
+<form id="buy-form" autocomplete="off">
+<label for="item-name" class="sr-only">What did you buy?</label>
+<input id="item-name" placeholder="What did you buy?" maxlength="40">
+<label for="item-cost" class="sr-only">Cost in dollars</label>
+<input id="item-cost" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="Cost ($)">
+<button id="buy-btn" type="submit">Log Expense</button>
+</form>
+<p id="form-error" class="error" role="alert"></p>
+<div class="row">
+<button id="coffee-btn" type="button">Commit the $400 iced coffee</button>
+<button id="replay-btn" type="button">Reconstruct the crime (sample month)</button>
+<button id="report-btn" type="button" class="secondary">Open case file</button>
+<button id="reset-btn" type="button" class="secondary">Restart</button>
+<button id="sound-btn" type="button" class="secondary" aria-pressed="false">Sound: off</button>
+</div>
+<form id="budget-form" class="inline">
+<label for="budget-input">Monthly budget ($)</label>
+<input id="budget-input" type="number" inputmode="decimal" min="10" step="1" value="500">
+<button id="budget-set-btn" type="submit" class="secondary">Set</button>
+</form>
+<section aria-label="Budget over time">
+<h2>Budget over time</h2>
+<svg id="chart" viewBox="0 0 300 100" preserveAspectRatio="none" role="img" aria-label="Line chart of the remaining budget after each purchase">
+<line x1="0" y1="50" x2="300" y2="50" class="grid"></line>
+<line x1="0" y1="80" x2="300" y2="80" class="grid"></line>
+<polyline id="chart-line" fill="none" points=""></polyline>
+</svg>
+<p class="chart-note">Dotted lines mark 50% and 20% of your budget.</p>
+</section>
+<section aria-label="Recent purchases">
+<h2>Recent purchases</h2>
+<ul id="history-list"></ul>
+</section>
+<details>
+<summary>Import your own transactions (CSV)</summary>
+<p>One purchase per line: <code>date, name, amount</code>. Example: <code>2026-11-03, Coffee, 4.50</code></p>
+<textarea id="csv-input" rows="6" placeholder="date,name,amount"></textarea>
+<button id="import-btn" type="button">Import and reconstruct</button>
+<p id="import-status" role="status"></p>
+</details>
+<p class="footnote">All data is simulated. No bank connection. Pet art drawn by our team.</p>
+</main>
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
