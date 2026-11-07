@@ -1,6 +1,7 @@
 const startBudget = 500;
 let budget = 500;
 
+const petImg = document.getElementById("pet-img");
 const petImage = document.getElementById('pet-image');
 const healthBar = document.getElementById('health-bar');
 const budgetText = document.getElementById('budget-text');
@@ -31,21 +32,25 @@ function updateUI() {
     budgetText.innerText = `$${budget.toFixed(2)} / $${startBudget}`;
     healthBar.style.width = `${healthPercent}%`;
     
-    if (state === 'happy') {
-        healthBar.style.backgroundColor = '#4CAF50';
-        petImage.innerText = '😎'; 
-    } else if (state === 'okay') {
-        healthBar.style.backgroundColor = '#FFEB3B';
-        petImage.innerText = '🙂'; 
-    } else if (state === 'sick') {
-        healthBar.style.backgroundColor = '#FF9800';
-        petImage.innerText = '🤢'; 
-    } else if (state === 'dead') {
-        healthBar.style.backgroundColor = '#F44336';
-        petImage.innerText = '💀'; 
-        buyBtn.disabled = true;
-        buyBtn.style.opacity = '0.5';
-    }
+if (state === 'happy') {
+    healthBar.style.backgroundColor = '#7BD389';
+    petImg.src = 'assets/Happy.png';
+
+} else if (state === 'okay') {
+    healthBar.style.backgroundColor = '#FFEB3B';
+    petImg.src = 'assets/Okay.png';
+
+} else if (state === 'sick') {
+    healthBar.style.backgroundColor = '#FF9800';
+    petImg.src = 'assets/Sad.png';
+
+} else if (state === 'dead') {
+    healthBar.style.backgroundColor = '#F44336';
+    petImg.src = 'assets/Dead.png';
+
+    buyBtn.disabled = true;
+    buyBtn.style.opacity = '0.5';
+}
 
     messageBox.innerText = getRandomMessage(state);
 }
