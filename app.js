@@ -5,6 +5,7 @@ const petImage = document.getElementById('pet-image');
 const healthBar = document.getElementById('health-bar');
 const budgetText = document.getElementById('budget-text');
 const messageBox = document.getElementById('message-box');
+const expenseList = document.getElementById('expense-list');
 const itemNameInput = document.getElementById('item-name');
 const itemCostInput = document.getElementById('item-cost');
 const buyBtn = document.getElementById('buy-btn');
@@ -63,10 +64,14 @@ function updateUI(budget, expenses) {
 async function fetchState() {
     try {
         const response = await fetch(`${API_URL}/state`);
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
+        }
         const data = await response.json();
         updateUI(data.budget, data.expenses);
     } catch (error) {
         console.error("Make sure your Python server is running!", error);
+        messageBox.innerText = 'Could not connect to the server. Make sure it is running and try again.';
     }
 }
 
@@ -79,6 +84,7 @@ buyBtn.addEventListener('click', async () => {
         return;
     }
 
+<<<<<<< HEAD
     const response = await fetch(`${API_URL}/expense`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -98,6 +104,44 @@ resetBtn.addEventListener('click', async () => {
     buyBtn.disabled = false;
     buyBtn.style.opacity = '1';
     updateUI(data.budget, data.expenses);
+=======
+    // Send the purchase to the Python backend
+    try {
+        const response = await fetch(`${API_URL}/expense`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name, cost: cost })
+        });
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
+        }
+        const data = await response.json();
+
+        updateUI(data.budget, data.expenses);
+        itemNameInput.value = '';
+        itemCostInput.value = '';
+    } catch (error) {
+        console.error('Could not save the expense.', error);
+        messageBox.innerText = 'Could not save the expense. Check the server connection and try again.';
+    }
+});
+
+resetBtn.addEventListener('click', async () => {
+    try {
+        const response = await fetch(`${API_URL}/reset`, { method: 'POST' });
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
+        }
+        const data = await response.json();
+
+        buyBtn.disabled = false;
+        buyBtn.style.opacity = '1';
+        updateUI(data.budget, data.expenses);
+    } catch (error) {
+        console.error('Could not reset the budget.', error);
+        messageBox.innerText = 'Could not reset the budget. Check the server connection and try again.';
+    }
+>>>>>>> b47b7f4 (API changes)
 });
 
 fetchState();

@@ -23,6 +23,7 @@ class Expense(BaseModel):
     cost: float
 
 @app.get("/")
+@app.get("/state")
 def get_state():
     return app_state
 
