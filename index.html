@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Tamagotchi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Financial Tamagotchi</h1>
+            <p class="tagline">Keep your budget alive.</p>
+        </header>
+
+        <!-- Message Bubble -->
+        <div id="message-box" class="message-bubble">I'm thriving. Keep it up.</div>
+
+        <!-- Pet Display -->
+        <div class="pet-container">
+            <div id="pet-image">😎</div>
+        </div>
+
+        <!-- Health & Budget Stats -->
+        <div class="stats-container">
+            <h2 id="budget-text">$500 / $500</h2>
+            <div class="health-bar-bg">
+                <div id="health-bar"></div>
+            </div>
+        </div>
+
+        <!-- Expense Form -->
+        <div class="form-container">
+            <input type="text" id="item-name" placeholder="What did you buy?">
+            <input type="number" id="item-cost" placeholder="Cost ($)">
+            <button id="buy-btn">Log Expense</button>
+        </div>
+
+        <!-- Reset Game -->
+        <button id="reset-btn">Restart Demo</button>
+    </div>
+
+    <!-- Scripts (Load messages first, then logic) -->
+    <script src="messages.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
