@@ -1,6 +1,4 @@
-const startBudget = 500;
-let budget = 500;
-
+const expenseList = document.getElementById('expense-list');
 const petImage = document.getElementById('pet-image');
 const healthBar = document.getElementById('health-bar');
 const budgetText = document.getElementById('budget-text');
@@ -9,6 +7,9 @@ const itemNameInput = document.getElementById('item-name');
 const itemCostInput = document.getElementById('item-cost');
 const buyBtn = document.getElementById('buy-btn');
 const resetBtn = document.getElementById('reset-btn');
+
+const API_URL = 'http://127.0.0.1:9000';
+const startBudget = 500;
 
 function getPetState(currentBudget) {
     const percent = (currentBudget / startBudget) * 100;
@@ -24,7 +25,7 @@ function getRandomMessage(state) {
     return messages[randomIndex];
 }
 
-function updateUI() {
+function updateUI(budget, expenses) {
     const state = getPetState(budget);
     const healthPercent = (budget / startBudget) * 100;
     
@@ -45,33 +46,63 @@ function updateUI() {
         petImage.innerText = '💀'; 
         buyBtn.disabled = true;
         buyBtn.style.opacity = '0.5';
+    } else {
+        buyBtn.disabled = false;
+        buyBtn.style.opacity = '1';
     }
 
     messageBox.innerText = getRandomMessage(state);
+
+    // Render the expense history straight from the backend data
+    expenseList.innerHTML = '';
+    expenses.forEach(exp => {
+        const li = document.createElement('li');
+        li.innerText = `- $${exp.cost.toFixed(2)} on ${exp.name}`;
+        expenseList.appendChild(li);
+    });
 }
 
-buyBtn.addEventListener('click', () => {
+// Fetch the current budget and history when the page loads
+async function fetchState() {
+    try {
+        const response = await fetch(`${API_URL}/state`);
+        const data = await response.json();
+        updateUI(data.budget, data.expenses);
+    } catch (error) {
+        console.error("Make sure your Python server is running!", error);
+    }
+}
+
+buyBtn.addEventListener('click', async () => {
     const cost = parseFloat(itemCostInput.value);
+    const name = itemNameInput.value.trim();
     
-    if (isNaN(cost) || cost <= 0 || itemNameInput.value.trim() === '') {
+    if (isNaN(cost) || cost <= 0 || name === '') {
         alert('Please enter a valid item name and cost above $0.');
         return;
     }
 
-    budget -= cost;
-    if (budget < 0) budget = 0; 
-
-    updateUI();
-
+    // Send the purchase to the Python backend
+    const response = await fetch(`${API_URL}/expense`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, cost: cost })
+    });
+    const data = await response.json();
+    
+    updateUI(data.budget, data.expenses);
     itemNameInput.value = '';
     itemCostInput.value = '';
 });
 
-resetBtn.addEventListener('click', () => {
-    budget = startBudget;
+resetBtn.addEventListener('click', async () => {
+    // Tell the backend to wipe the history and reset to 500
+    const response = await fetch(`${API_URL}/reset`, { method: 'POST' });
+    const data = await response.json();
+    
     buyBtn.disabled = false;
     buyBtn.style.opacity = '1';
-    updateUI();
+    updateUI(data.budget, data.expenses);
 });
 
-updateUI();
+fetchState();
