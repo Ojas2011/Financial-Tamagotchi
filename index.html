@@ -43,6 +43,7 @@
 <button id="buy-btn" type="submit">Log Expense</button>
 </form>
 <p id="form-error" class="error" role="alert"></p>
+
 <div class="row">
 <button id="coffee-btn" type="button">Commit the $400 iced coffee</button>
 <button id="replay-btn" type="button">Reconstruct the crime (sample month)</button>
@@ -50,6 +51,16 @@
 <button id="reset-btn" type="button" class="secondary">Restart</button>
 <button id="sound-btn" type="button" class="secondary" aria-pressed="false">Sound: off</button>
 </div>
+
+<!-- Accessibility & View Controls -->
+<div class="row" style="margin-top: 10px;">
+    <button id="theme-toggle" type="button" class="secondary" title="Toggle light/dark mode">☀️</button>
+    <button id="fullscreen-btn" type="button" class="secondary" title="Maximize/Minimize">🔲</button>
+    <button id="font-minus" type="button" class="secondary">A-</button>
+    <span id="font-size-display" style="padding: 10px; display: flex; align-items: center; font-size: 1.2rem;">20</span>
+    <button id="font-plus" type="button" class="secondary">A+</button>
+</div>
+
 <form id="budget-form" class="inline">
 <label for="budget-input">Monthly budget ($)</label>
 <input id="budget-input" type="number" inputmode="decimal" min="10" step="1" value="500">

@@ -208,5 +208,33 @@ $('import-btn').addEventListener('click', () => {
   startReplay(list, days);
 });
 
+/* Accessibility & View Controls */
+let fontSize = 20;
+$('theme-toggle').addEventListener('click', (e) => {
+    document.body.classList.toggle('light-mode');
+    e.target.textContent = document.body.classList.contains('light-mode') ? '🌙' : '☀️';
+});
+
+function updateFont(change) {
+    fontSize = Math.max(10, Math.min(90, fontSize + change));
+    $('font-size-display').textContent = fontSize;
+    document.body.style.fontSize = fontSize + 'px';
+}
+
+$('font-minus').addEventListener('click', () => updateFont(-2));
+$('font-plus').addEventListener('click', () => updateFont(2));
+
+$('fullscreen-btn').addEventListener('click', (e) => {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+            console.log(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+        e.target.textContent = '🔳';
+    } else {
+        document.exitFullscreen();
+        e.target.textContent = '🔲';
+    }
+});
+
 $('budget-input').value = state.start;
 render(null);

@@ -1,0 +1,45 @@
+const MESSAGES = {
+  happy: [
+    "I'm thriving. Keep it up.",
+    "Wall Street fears you.",
+    "Making good choices. You're definitely not calling plays for Charlotte football."
+  ],
+  okay: [
+    "We're cutting it a bit close, don't you think?",
+    "You're looking like the 49ers in the 4th quarter right now. Sweating.",
+    "I'm feeling a little lightheaded. Watch the spending."
+  ],
+  sick: [
+    "Your budget defense is looking like UNCC playing against an SEC team.",
+    "This budget is collapsing faster than the Charlotte defensive line.",
+    "I feel physically ill looking at your receipts."
+  ],
+  dead: [
+    "Zero dollars. Zero pulse. You just pulled a complete UNCC football season.",
+    "We are officially in a rebuilding year. Game over.",
+    "You tanked this budget faster than a 49ers homecoming game."
+  ]
+};
+
+const BIG_SPEND = [
+  "You just blew the budget on one play. Classic Charlotte football move.",
+  "That impulse purchase hit hard. We are ruined."
+];
+
+const NEED_MESSAGES = [
+  "Okay, it was a need. I'll let it slide.",
+  "At least someone here makes responsible decisions."
+];
+
+const SAMPLE_MONTH = [
+  { name: 'Rent', cost: 600, day: 1 },
+  { name: 'Groceries', cost: 120, day: 2 },
+  { name: 'Coffee', cost: 6, day: 3 },
+  { name: 'Concert', cost: 85, day: 5 },
+  { name: 'Snack', cost: 8, day: 6 },
+  { name: 'Takeout', cost: 25, day: 8 },
+  { name: 'Bus pass', cost: 30, day: 10 },
+  { name: 'Sneakers', cost: 95, day: 12 },
+  { name: 'Coffee', cost: 6, day: 14 },
+  { name: 'Mystery gadget', cost: 44.99, day: 18 }
+];
