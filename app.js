@@ -1,7 +1,6 @@
 'use strict';
 const $ = (id) => document.getElementById(id);
 const KEY = 'brokeblob.v1';
-const EMOJI = { happy: '😎', okay: '😬', sick: '🤢', dead: '💀' };
 const LABEL = { happy: 'Thriving', okay: 'Nervous', sick: 'Sick', dead: 'Dead' };
 
 let state = load() || { start: 500, budget: 500, tx: [], day: null, days: 30 };
@@ -56,11 +55,16 @@ function pickMessage(stateName, tx) {
 function currentState() { return Engine.mood(state.budget, state.start, state.day, state.days); }
 
 function setPet(s) {
-  const img = $('pet-image'), emo = $('pet-emoji');
+  const img = $('pet-image');
+  const files = {
+    happy: 'Happy.png',
+    okay: 'Okay.png',
+    sick: 'Sad.png',
+    dead: 'Dead.png'
+  };
+
   img.alt = 'Your pet is ' + LABEL[s];
-  img.hidden = false; emo.hidden = true;
-  img.onerror = () => { img.hidden = true; emo.hidden = false; emo.textContent = EMOJI[s]; };
-  img.src = 'assets/' + s + '.png';
+  img.src = 'assets/' + files[s];
 }
 
 function render(tx) {
